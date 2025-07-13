@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useSwipeable } from 'react-swipeable';
 import Image from '../../../components/AppImage';
 import Icon from '../../../components/AppIcon';
 
-const StudentCard = ({ 
-  student, 
-  onSwipeUp, 
-  onSwipeDown, 
-  isAnimating, 
+const StudentCard = ({
+  student,
+  onSwipeUp,
+  onSwipeDown,
+  isAnimating,
   attendanceStatus,
   slideInFromRight = false,
-  absenceStatusText 
+  absenceStatusText
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -23,28 +24,12 @@ const StudentCard = ({
     }
   }, [slideInFromRight, student?.id]);
 
-  const handleTouchStart = (e) => {
-    const touch = e.touches[0];
-    e.currentTarget.dataset.startY = touch.clientY;
-  };
-
-  const handleTouchEnd = (e) => {
-    const touch = e.changedTouches[0];
-    const startY = parseFloat(e.currentTarget.dataset.startY);
-    const endY = touch.clientY;
-    const deltaY = startY - endY;
-    const threshold = 50;
-
-    if (Math.abs(deltaY) > threshold) {
-      if (deltaY > 0) {
-        // Swiped up - Mark Present
-        onSwipeUp();
-      } else {
-        // Swiped down - Mark Absent
-        onSwipeDown();
-      }
-    }
-  };
+  const handlers = useSwipeable({
+    onSwipedUp: () => onSwipeUp(),
+    onSwipedDown: () => onSwipeDown(),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true
+  });
 
   const getStatusColor = () => {
     if (attendanceStatus === 'present') return 'border-success bg-success/5';
@@ -106,16 +91,15 @@ const StudentCard = ({
       </div>
 
       {/* Student Card with Slide Animation */}
-      <div 
+      <div
+        {...handlers}
         className={`relative w-80 h-96 rounded-2xl border-2 shadow-card cursor-pointer select-none transition-all duration-500 ${getStatusColor()} ${
           isAnimating ? 'scale-105 shadow-interactive' : 'hover:shadow-interactive'
         } ${
-          slideInFromRight 
+          slideInFromRight
             ? `transform ${isVisible ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-700 ease-out`
             : ''
         }`}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
       >
         {/* Status Badge */}
         {statusIcon && (

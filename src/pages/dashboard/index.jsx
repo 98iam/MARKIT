@@ -99,7 +99,7 @@ const Dashboard = () => {
 
             {/* Right Column - Sidebar Content */}
             <div className="space-y-8">
-              <UpcomingClasses />
+
             </div>
           </div>
 

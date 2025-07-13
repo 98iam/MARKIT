@@ -2,7 +2,49 @@ import React from 'react';
 import Icon from '../../../components/AppIcon';
 
 const QuickStats = () => {
-  const classStats = [];
+  // Mock data for class statistics
+  const classStats = [
+    {
+      id: 1,
+      className: 'SSC CGL Tier 1',
+      presentToday: 45,
+      totalStudents: 50,
+      attendanceRate: 90,
+      status: 'high'
+    },
+    {
+      id: 2,
+      className: 'UPSC Prelims CSAT',
+      presentToday: 38,
+      totalStudents: 40,
+      attendanceRate: 95,
+      status: 'high'
+    },
+    {
+      id: 3,
+      className: 'Banking PO Mains',
+      presentToday: 30,
+      totalStudents: 35,
+      attendanceRate: 85,
+      status: 'medium'
+    },
+    {
+      id: 4,
+      className: 'Railway NTPC',
+      presentToday: 65,
+      totalStudents: 80,
+      attendanceRate: 81,
+      status: 'medium'
+    },
+    {
+      id: 5,
+      className: 'SSC CHSL',
+      presentToday: 25,
+      totalStudents: 35,
+      attendanceRate: 71,
+      status: 'low'
+    }
+  ];
 
   const getStatusColor = (status) => {
     switch (status) {
