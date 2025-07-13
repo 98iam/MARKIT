@@ -10,9 +10,7 @@ import StudentModal from './components/StudentModal';
 import AttendanceHistoryModal from './components/AttendanceHistoryModal';
 
 const StudentManagement = () => {
-  // Remove demo data - start with empty students array
-  const [students] = useState([]);
-
+  const [students, setStudents] = useState([]);
   const [selectedStudents, setSelectedStudents] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'asc' });
   const [filters, setFilters] = useState({
@@ -118,8 +116,11 @@ const StudentManagement = () => {
   };
 
   const handleSaveStudent = (studentData) => {
-    // Implementation for saving student data
-    console.log('Save student:', studentData);
+    if (studentModal.mode === 'add') {
+      setStudents(prev => [...prev, { ...studentData, id: `GU${(students.length + 1).toString().padStart(3, '0')}`, attendancePercentage: 100, status: 'active' }]);
+    } else {
+      setStudents(prev => prev.map(s => s.id === studentData.id ? studentData : s));
+    }
   };
 
   // Bulk actions

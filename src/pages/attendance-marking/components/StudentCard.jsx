@@ -13,6 +13,7 @@ const StudentCard = ({
   absenceStatusText
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [swipeDirection, setSwipeDirection] = useState(null);
 
   useEffect(() => {
     if (slideInFromRight) {
@@ -24,9 +25,21 @@ const StudentCard = ({
     }
   }, [slideInFromRight, student?.id]);
 
+  const handleSwipe = (direction) => {
+    setSwipeDirection(direction);
+    setTimeout(() => {
+      if (direction === 'up') {
+        onSwipeUp();
+      } else {
+        onSwipeDown();
+      }
+      setSwipeDirection(null);
+    }, 300);
+  };
+
   const handlers = useSwipeable({
-    onSwipedUp: () => onSwipeUp(),
-    onSwipedDown: () => onSwipeDown(),
+    onSwipedUp: () => handleSwipe('up'),
+    onSwipedDown: () => handleSwipe('down'),
     preventDefaultTouchmoveEvent: true,
     trackMouse: true
   });
@@ -99,7 +112,10 @@ const StudentCard = ({
           slideInFromRight
             ? `transform ${isVisible ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-700 ease-out`
             : ''
-        }`}
+        }
+        ${swipeDirection === 'up' ? 'animate-swipe-up' : ''}
+        ${swipeDirection === 'down' ? 'animate-swipe-down' : ''}
+        `}
       >
         {/* Status Badge */}
         {statusIcon && (

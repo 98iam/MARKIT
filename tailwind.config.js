@@ -90,6 +90,8 @@ export default {
         'micro': 'micro 200ms ease-out',
         'state': 'state 300ms ease-in-out',
         'hover': 'hover 150ms ease-out',
+        'swipe-up': 'swipe-up 300ms ease-out forwards',
+        'swipe-down': 'swipe-down 300ms ease-out forwards',
       },
       keyframes: {
         micro: {
@@ -104,6 +106,14 @@ export default {
         hover: {
           '0%': { transform: 'translateY(0)' },
           '100%': { transform: 'translateY(-1px)' },
+        },
+        'swipe-up': {
+          '0%': { transform: 'translateY(0) scale(1)', opacity: 1 },
+          '100%': { transform: 'translateY(-100%) scale(0.9)', opacity: 0 },
+        },
+        'swipe-down': {
+          '0%': { transform: 'translateY(0) scale(1)', opacity: 1 },
+          '100%': { transform: 'translateY(100%) scale(0.9)', opacity: 0 },
         },
       },
       boxShadow: {
