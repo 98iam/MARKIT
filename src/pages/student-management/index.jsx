@@ -10,8 +10,15 @@ import StudentModal from './components/StudentModal';
 import AttendanceHistoryModal from './components/AttendanceHistoryModal';
 
 const StudentManagement = () => {
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState(() => {
+    const savedStudents = localStorage.getItem('students');
+    return savedStudents ? JSON.parse(savedStudents) : [];
+  });
   const [selectedStudents, setSelectedStudents] = useState([]);
+
+  React.useEffect(() => {
+    localStorage.setItem('students', JSON.stringify(students));
+  }, [students]);
   const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'asc' });
   const [filters, setFilters] = useState({
     class: '',

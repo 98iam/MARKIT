@@ -11,11 +11,24 @@ const StudentModal = ({
   onSave 
 }) => {
   const [formData, setFormData] = useState({
-    name: student?.name || '',
-    phone: student?.phone || ''
+    name: '',
+    phone: ''
   });
-
   const [errors, setErrors] = useState({});
+
+  React.useEffect(() => {
+    if (isOpen) {
+      if (mode === 'add') {
+        setFormData({ name: '', phone: '' });
+      } else {
+        setFormData({
+          name: student?.name || '',
+          phone: student?.phone || ''
+        });
+      }
+      setErrors({});
+    }
+  }, [isOpen, mode, student]);
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
